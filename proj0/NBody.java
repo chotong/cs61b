@@ -43,8 +43,8 @@ public class NBody {
             i.draw();
         }
         StdDraw.enableDoubleBuffering();
-        for (time = 0; time < T; time+=dt) {
-            double[] xForces = new double [N];
+        for (time = 0; time < T; time += dt) {
+            double[] xForces = new double[N];
             double[] yForces = new double[N];
             for (int i = 0; i < N; i++) {
                 xForces[i] = bodies[i].calcNetForceExertedByX(bodies);
@@ -56,11 +56,19 @@ public class NBody {
             }
 
             StdDraw.picture(0, 0, "images/starfield.jpg");
-        	for (Body b: bodies) {
-        		b.draw();
-        	}
-        	StdDraw.show();
+            for (Body b : bodies) {
+                b.draw();
+            }
+            StdDraw.show();
             StdDraw.pause(10);
+        }
+        
+        StdOut.printf("%d\n", bodies.length);
+        StdOut.printf("%.2e\n", radius);
+        for (int i = 0; i < bodies.length; i++) {
+            StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
+                        bodies[i].xxPos, bodies[i].yyPos, bodies[i].xxVel,
+                        bodies[i].yyVel, bodies[i].mass, bodies[i].imgFileName);   
         }
 	}
 }
