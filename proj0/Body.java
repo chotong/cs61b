@@ -29,49 +29,43 @@ public class Body {
     }
 
     public double calcDistance(Body b) {
-        return sqrt(pow((this.xxPos - b.xxPos), 2) + pow((this.yyPos - b.yyPos), 2));
+        return sqrt((this.xxPos - b.xxPos)*(this.xxPos - b.xxPos) + (this.yyPos - b.yyPos)*(this.yyPos - b.yyPos));
     }
 
     public double calcForceExertedBy(Body b) {
-        return (g * this.mass * b.mass) / pow(calcDistance(b), 2);
+        return (g * mass * b.mass) / (calcDistance(b)*calcDistance(b));
     }
     
     public double calcForceExertedByX(Body b) {
-        double pos = 0;
-        if (this.xxPos > b.xxPos){
-            pos = this.xxPos - b.xxPos;
-        }
-        else{
-            pos = b.xxPos - this.xxPos;
-        }
+        double pos = b.xxPos - this.xxPos;
         return calcForceExertedBy(b) * (pos/calcDistance(b));
     }
 
     public double calcForceExertedByY(Body b) {
-        double pos = 0;
-        if (this.yyPos > b.yyPos) {
-            pos = this.yyPos - b.yyPos;
-        } else {
-            pos = b.yyPos - this.yyPos;
-        }
+        double pos = b.yyPos - this.yyPos;
         return calcForceExertedBy(b) * (pos / calcDistance(b));
     }
     
-    public double calcNetForceExertedByX(Body[] all) {
-        double netX = 0;
-        for(int i=0;i<all.length;i++){
-            netX += calcForceExertedByX(all[i]);
-        }
-        return netX;
-    }
+	public double calcNetForceExertedByX(Body[] bodies) {
+		double fX = 0;
+		for (Body b: bodies) {
+			if (!this.equals(b)) {
+				fX += calcForceExertedByX(b);
+			}
+		}
+		return fX;
+	}
 
-    public double calcNetForceExertedByY(Body[] all) {
-        double netY = 0;
-        for (int i = 0; i < all.length; i++) {
-            netY += calcForceExertedByY(all[i]);
-        }
-        return netY;
-    }
+	public double calcNetForceExertedByY(Body[] bodies) {
+		double fY = 0;
+		for (Body b: bodies) {
+			if (!this.equals(b)) {
+				fY += calcForceExertedByY(b);
+			}
+		}
+		return fY;
+	}
+
     
     public void update(double s, double nX, double nY) {
         double aX = nX / this.mass;
