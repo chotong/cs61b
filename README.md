@@ -1,1 +1,1 @@
-A implementation of CS61B
+An implementation of CS61B
